@@ -224,40 +224,38 @@ new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 </div>
 </div>
 <script>document.getElementById("orderForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+  e.preventDefault();
 
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const city = document.getElementById("city").value.trim();
-      const warehouse = document.getElementById("warehouse").value.trim();
-      const payment = document.getElementById("payment").value;
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const city = document.getElementById("city").value.trim();
+  const warehouse = document.getElementById("warehouse").value.trim();
+  const payment = document.getElementById("payment").value;
 
-      if (phone.length < 13) {
-        alert("❌ Введіть повний номер телефону у форматі +38XXXXXXXXXX");
-        return;
-      }
+  if (phone.length < 13) {
+    alert("❌ Введіть повний номер телефону у форматі +38XXXXXXXXXX");
+    return;
+  }
 
-      fetch("/api/send", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ name, phone, city, warehouse, payment })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          alert("✅ Замовлення надіслано!");
-          document.getElementById("orderForm").reset();
-          document.getElementById("modal").classList.add("hidden");
-        } else {
-          alert("❌ Помилка від Telegram");
-        }
-      })
-      .catch(() => {
-        alert("❌ Мережева помилка");
-      });
-    });</script>
+  fetch("/api/send", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, phone, city, warehouse, payment })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("✅ Замовлення надіслано!");
+      document.getElementById("orderForm").reset();
+      document.getElementById("modal").classList.add("hidden");
+    } else {
+      alert("❌ Помилка від Telegram");
+    }
+  })
+  .catch(() => {
+    alert("❌ Мережева помилка");
+  });
+});</script>
 <style>
   .autocomplete-results {
     background-color: #2b2c26;
