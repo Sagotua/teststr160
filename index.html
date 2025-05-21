@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strike Face</title>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("orderForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        const name = document.getElementById("name").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const city = document.getElementById("city").value.trim();
+        const warehouse = document.getElementById("warehouse").value.trim();
+        const payment = document.getElementById("payment").value;
+        fetch("/api/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, phone, city, warehouse, payment })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert("✅ Замовлення надіслано!");
+            document.getElementById("orderForm").reset();
+          } else {
+            alert("❌ Помилка Telegram");
+          }
+        })
+        .catch(() => alert("❌ Мережева помилка"));
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1>Форма замовлення</h1>
+  <form id="orderForm">
+    <input id="name" placeholder="Ім’я"><br>
+    <input id="phone" placeholder="Телефон"><br>
+    <input id="city" placeholder="Місто"><br>
+    <input id="warehouse" placeholder="Відділення"><br>
+    <select id="payment">
+      <option value="Післяплата">Післяплата</option>
+      <option value="Оплата на картку банку">Оплата на картку</option>
+    </select><br>
+    <button type="submit">Підтвердити</button>
+  </form>
+</body>
+</html>
